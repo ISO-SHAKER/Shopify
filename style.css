@@ -1,0 +1,390 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap");
+
+/* ===== Global Styles ===== */
+:root {
+  --color1: #ab4e68;
+  --color2: #b07156;
+  --color3: #533745;
+  --color4: #9d9171;
+  --color5: #c4a287;
+  --color6: #4a646c;
+  --color7: #333;
+  --color8: #fff;
+  --transition: all 0.3s ease-in-out;
+}
+
+* {
+  font-family: "Jost", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* ===== Body Style ===== */
+body {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 30px;
+  min-height: 100vh;
+}
+
+/* prevent body scroll when cart is open */
+body:has(.show) {
+  overflow: hidden;
+}
+
+/* ===== Buttons Style ===== */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: var(--transition);
+}
+
+/* ===== Images Style ===== */
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ===== Navbar Style ===== */
+nav {
+  position: sticky;
+  top: 0px;
+  z-index: 100;
+  background: var(--color1);
+  color: var(--color8);
+  padding: 15px;
+}
+
+nav > .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+/* ===== Cart-Button Style ===== */
+.cart-btn {
+  position: relative;
+  padding: 3px 8px;
+  background: transparent;
+  color: inherit;
+}
+
+.cart-btn .bi {
+  font-size: 2rem;
+}
+
+.cart-btn:is(:hover) {
+  background: var(--color5);
+}
+
+.cart-qty {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background: var(--color7);
+  padding: 0 5px;
+  border-radius: 3px;
+  display: none;
+  font-size: 1rem;
+}
+
+.cart-qty.visible {
+  display: block;
+}
+
+/* ===== Search Part ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+  text-align: center;
+}
+
+form div {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1rem;
+}
+
+.formInput {
+  width: 25%;
+  height: 2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: var(--color8);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.formInput:focus {
+  outline: none;
+}
+
+input[type="submit"] {
+  font-size: 1rem;
+}
+
+#search-btn {
+  background: var(--color7);
+  color: var(--color8);
+  width: 20%;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+#search-btn:is(:hover) {
+  filter: brightness(1.75);
+}
+
+/* ===== Container Style ===== */
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+/* ===== Products Container Style ===== */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding-bottom: 50px;
+}
+
+/* ===== Product Card Style ===== */
+.product {
+  position: relative;
+  text-align: center;
+  padding: 10px;
+  background-color: rgb(240, 240, 240);
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* ===== Product Image Style ===== */
+.product img {
+  height: 250px;
+  object-fit: contain;
+}
+
+.product:hover img {
+  opacity: 0.75;
+}
+
+/* ===== Product Text Style ===== */
+.product h3 {
+  margin-top: 10px;
+  color: var(--color4);
+  font-size: 1rem;
+}
+
+.product h5 {
+  margin-top: 10px;
+  color: var(--color6);
+  font-size: 1rem;
+}
+
+/* ===== Product Button Style ===== */
+.product button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--color1);
+  color: var(--color8);
+  padding: 5px 10px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  opacity: 0;
+}
+
+.product:is(:hover) button {
+  opacity: 1;
+}
+
+.product button::before {
+  font-family: "bootstrap-icons";
+  font-size: 1.5rem;
+  content: "\F23F";
+}
+
+.product button:is(:disabled)::before {
+  content: "\F23A";
+}
+
+.product button:is(:hover) {
+  background: var(--color2);
+}
+
+.product button:is(:disabled) {
+  background: var(--color3);
+  filter: brightness(1.5);
+}
+
+/* ===== Cart Overlay Style ===== */
+
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 0.5;
+  visibility: hidden;
+  cursor: pointer;
+  background: var(--color7);
+  transition: var(--transition);
+}
+
+.cart-overlay.show {
+  visibility: visible;
+}
+
+/* ===== Cart Container Style ===== */
+.cart {
+  position: fixed;
+  inset-block: 0;
+  right: 0;
+  width: 100%;
+  max-width: 450px;
+  z-index: 200;
+  padding: 20px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  transform: translateX(100%);
+  transition: var(--transition);
+  background: var(--color8);
+}
+
+.cart.show {
+  transform: none;
+}
+
+.cart-header {
+  position: relative;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-close {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.cart-body {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  padding: 20px;
+  overflow: auto;
+}
+
+.cart-empty {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.5em;
+  color: var(--color6);
+}
+
+/* ===== Cart Item Style ===== */
+.cart-item {
+  display: flex;
+  gap: 10px;
+}
+
+.cart-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.cart-item-detail {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.cart-item-detail h3 {
+  font-size: 1rem;
+  color: var(--color4);
+}
+
+.cart-item-detail h5 {
+  color: var(--color6);
+}
+
+.cart-item-amount {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+
+.cart-item-amount .bi {
+  cursor: pointer;
+  opacity: 0.25;
+}
+
+.cart-item-amount .bi:is(:hover) {
+  opacity: 1;
+}
+
+.cart-item-amount .qty {
+  width: 2rem;
+  text-align: center;
+}
+
+.cart-item-price {
+  margin-left: auto;
+}
+
+/* ===== Cart Footer Style ===== */
+.cart-footer {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.cart-footer div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.25rem;
+}
+
+.cart-footer strong {
+  font-weight: 500;
+  color: var(--color4);
+}
+
+.cart-footer button {
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+.cart-clear {
+  background: var(--color7);
+  color: var(--color8);
+}
+
+.cart-clear:is(:hover) {
+  filter: brightness(1.75);
+}
